@@ -3,16 +3,16 @@ services:
     image: mysql:8.4
     container_name: chatmvp-mysql
     environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: chatmvp
-      MYSQL_USER: chatmvp
-      MYSQL_PASSWORD: chatmvp
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     ports:
       - "3306:3306"
     volumes:
       - chatmvp-mysql-data:/var/lib/mysql
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "chatmvp", "-pchatmvp"]
+      test: ["CMD-SHELL", "mysqladmin ping -h localhost -u \"$${MYSQL_USER}\" -p\"$${MYSQL_PASSWORD}\""]
       interval: 10s
       timeout: 5s
       retries: 5
